@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button.tsx";
+import { buttonVariants } from "@/components/ui/button.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
+import { UploadScriptButton } from "@/components/UploadScriptButton.tsx";
 
 export const HeaderComponent = () => {
   return (
@@ -17,31 +18,17 @@ export const HeaderComponent = () => {
             Прием на работу в продажи
           </h1>
         </div>
-        <div className="flex gap-3 flex-1">
-          <label
-            htmlFor="upload-script"
-            className={buttonVariants({
-              variant: "default",
-              size: "sm",
-              className: "ml-auto gap-1.5 text-sm cursor-pointer",
-            })}
-          >
-            <span className="text-sm">Загрузить скрипт</span>
-          </label>
-          <input
-            id="upload-script"
-            type="file"
-            className="opacity-0 absolute -z-10"
-          />
+        <div className="flex gap-3 flex-1 justify-end">
+          <UploadScriptButton />
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button
-                variant="outline"
-                size="sm"
-                className="ml-auto gap-1.5 text-sm"
-              >
-                ...
-              </Button>
+            <DropdownMenuTrigger
+              className={buttonVariants({
+                variant: "outline",
+                size: "sm",
+                className: "gap-1.5 text-sm",
+              })}
+            >
+              ...
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Действия</DropdownMenuLabel>

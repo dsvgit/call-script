@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { Id, useCallStore } from "@/store.ts";
+import { useCallStore } from "@/store.ts";
 import { HeaderComponent } from "@/Header.tsx";
+import { Id } from "@/entities.ts";
+import { UploadScriptButton } from "@/components/UploadScriptButton.tsx";
 
 export const App = () => {
-  useEffect(() => {
-    const listener = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = true;
-    };
-
-    window.addEventListener("beforeunload", listener);
-
-    return () => window.removeEventListener("beforeunload", listener);
-  }, []);
+  // useEffect(() => {
+  //   const listener = (e: BeforeUnloadEvent) => {
+  //     e.preventDefault();
+  //     e.returnValue = true;
+  //   };
+  //
+  //   window.addEventListener("beforeunload", listener);
+  //
+  //   return () => window.removeEventListener("beforeunload", listener);
+  // }, []);
 
   const currentQuestionId = useCallStore((state) => state.currentQuestionId);
   const listing = useCallStore((state) => state.listing);
@@ -30,11 +32,24 @@ export const App = () => {
               questionId={response.questionId}
               answeredId={response.answerId}
             />
-            <CallOverComponent answerId={response.answerId} />
+            <FinishedOnAnswerMessageComponent answerId={response.answerId} />
           </>
         ))}
         {currentQuestionId && (
-          <QuestionComponent questionId={currentQuestionId} />
+          <>
+            <QuestionComponent questionId={currentQuestionId} />
+            <FinishedOnQuestionMessageComponent
+              questionId={currentQuestionId}
+            />
+          </>
+        )}
+        {!currentQuestionId && (
+          <div className="text-center flex flex-col gap-3 py-10">
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+              Для начала работы загрузите скрипт
+            </h3>
+            <UploadScriptButton />
+          </div>
         )}
       </main>
     </div>
@@ -58,11 +73,14 @@ const QuestionComponent = React.memo((props: QuestionComponentProps) => {
 
   return (
     <Card>
-      <CardHeader>{question.text}</CardHeader>
+      <CardHeader>
+        <div dangerouslySetInnerHTML={{ __html: question.text }} />
+      </CardHeader>
 
       <CardFooter className="flex gap-2 flex-wrap">
         {questionAnswers.map((answer) => (
           <Button
+            key={answer.id}
             variant={answeredId !== answer.id ? "outline" : "default"}
             onClick={() => {
               setAnswer(question, answer);
@@ -74,7 +92,7 @@ const QuestionComponent = React.memo((props: QuestionComponentProps) => {
               }, 0);
             }}
           >
-            {answer.text}
+            <div dangerouslySetInnerHTML={{ __html: answer.text }} />
           </Button>
         ))}
       </CardFooter>
@@ -82,25 +100,52 @@ const QuestionComponent = React.memo((props: QuestionComponentProps) => {
   );
 });
 
-type CallOverComponentProps = {
+type FinishedOnAnswerMessageComponentProps = {
   answerId: Id;
 };
 
-const CallOverComponent = React.memo((props: CallOverComponentProps) => {
-  const { answerId } = props;
+const FinishedOnAnswerMessageComponent = React.memo(
+  (props: FinishedOnAnswerMessageComponentProps) => {
+    const { answerId } = props;
 
-  const answer = useCallStore((state) => state.answers[answerId]);
+    const answer = useCallStore((state) => state.answers[answerId]);
 
-  if (answer.nextQuestionId) {
-    return null;
-  }
+    if (answer.nextQuestionId) {
+      return null;
+    }
 
-  return (
-    <div className="inline-flex items-center justify-center w-full">
-      <hr className="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-      <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">
-        Скрипт завершен
-      </span>
-    </div>
-  );
-});
+    return (
+      <div className="inline-flex items-center justify-center w-full">
+        <hr className="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+        <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">
+          Скрипт завершен
+        </span>
+      </div>
+    );
+  },
+);
+
+type FinishedOnQuestionMessageComponentProps = {
+  questionId: Id;
+};
+
+const FinishedOnQuestionMessageComponent = React.memo(
+  (props: FinishedOnQuestionMessageComponentProps) => {
+    const { questionId } = props;
+
+    const question = useCallStore((state) => state.questions[questionId]);
+
+    if (question.answerIds.length > 0) {
+      return null;
+    }
+
+    return (
+      <div className="inline-flex items-center justify-center w-full">
+        <hr className="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+        <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">
+          Скрипт завершен
+        </span>
+      </div>
+    );
+  },
+);

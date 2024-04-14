@@ -1,20 +1,23 @@
 import { create } from "zustand";
 import { produce } from "immer";
 import { answers, questions } from "@/initialState.ts";
-
-interface CallState {
-  currentQuestionId: Id | null;
-  questions: Record<Id, Question>;
-  answers: Record<Id, Answer>;
-  listing: Listing;
-  setAnswer: (question: Question, answer: Answer) => void;
-}
+import { Answer, makeId, Question } from "@/entities.ts";
+import { CallState } from "@/store.h.ts";
+import { parseScript } from "@/parseScript.ts";
 
 export const useCallStore = create<CallState>()((set) => ({
-  currentQuestionId: 1,
+  currentQuestionId: null,
   questions,
   answers,
   listing: [],
+  setScript: (content: string) => {
+    const scriptState = parseScript(content);
+
+    set({
+      ...scriptState,
+      listing: [],
+    });
+  },
   setAnswer: (question: Question, answer: Answer) => {
     set(
       produce((state: CallState) => {
@@ -29,28 +32,3 @@ export const useCallStore = create<CallState>()((set) => ({
     );
   },
 }));
-
-let _id = 1;
-const makeId = () => _id++;
-
-export type Id = number;
-
-export type Response = {
-  id: Id;
-  questionId: Id;
-  answerId: Id;
-};
-
-export type Listing = Response[];
-
-export type Question = {
-  id: Id;
-  text: string;
-  answerIds: Id[];
-};
-
-export type Answer = {
-  id: Id;
-  text: string;
-  nextQuestionId: Id | null;
-};
