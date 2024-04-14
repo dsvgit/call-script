@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { useCallStore } from "@/store.ts";
 import { HeaderComponent } from "@/Header.tsx";
@@ -46,9 +46,22 @@ export const App = () => {
         {!currentQuestionId && (
           <div className="text-center flex flex-col gap-3 py-10">
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-              Для начала работы загрузите скрипт
+              Для начала работы выберите скрипт
             </h3>
-            <UploadScriptButton />
+            <div className="flex gap-3 justify-center">
+              <UploadScriptButton />
+              <a
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "sm",
+                  className: "gap-1.5 text-sm cursor-pointer",
+                })}
+                href="https://drive.google.com/drive/folders/1SCmnfjPMHsaVob5kD1ahDuUZKbHKc0Ww?usp=sharing"
+                target="_blank"
+              >
+                Хранилище скриптов
+              </a>
+            </div>
           </div>
         )}
       </main>

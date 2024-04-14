@@ -28,7 +28,7 @@ export const HeaderComponent = () => {
                 className: "gap-1.5 text-sm",
               })}
             >
-              ...
+              Другие действия...
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Действия</DropdownMenuLabel>
@@ -36,6 +36,14 @@ export const HeaderComponent = () => {
               <DropdownMenuItem>
                 <a href="https://app.diagrams.net/?lang=ru" target="_blank">
                   Создать скрипт
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <a
+                  href="https://drive.google.com/drive/folders/1SCmnfjPMHsaVob5kD1ahDuUZKbHKc0Ww?usp=sharing"
+                  target="_blank"
+                >
+                  Хранилище скриптов
                 </a>
               </DropdownMenuItem>
             </DropdownMenuContent>

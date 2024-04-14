@@ -1,4 +1,4 @@
-import {Answer, Id, Question} from "@/entities.ts";
+import { Answer, Id, Question } from "../src/entities.ts";
 
 export const questions: Record<Id, Question> = {
   1: {

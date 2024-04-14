@@ -11,10 +11,10 @@ export const UploadScriptButton = () => {
         className={buttonVariants({
           variant: "default",
           size: "sm",
-          className: "ml-auto gap-1.5 text-sm cursor-pointer",
+          className: "gap-1.5 text-sm cursor-pointer",
         })}
       >
-        <span className="text-sm">Загрузить скрипт</span>
+        <span className="text-sm">Выбрать скрипт</span>
       </label>
       <input
         id="upload-script"
