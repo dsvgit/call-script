@@ -46,21 +46,42 @@ export const App = () => {
         {!currentQuestionId && (
           <div className="text-center flex flex-col gap-3 py-10">
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-              Для начала работы выберите скрипт
+              Действия:
             </h3>
             <div className="flex gap-3 justify-center">
-              <UploadScriptButton />
-              <a
-                className={buttonVariants({
-                  variant: "outline",
-                  size: "sm",
-                  className: "gap-1.5 text-sm cursor-pointer",
-                })}
-                href="https://drive.google.com/drive/folders/1SCmnfjPMHsaVob5kD1ahDuUZKbHKc0Ww?usp=sharing"
-                target="_blank"
-              >
-                Хранилище скриптов
-              </a>
+              <ul className="flex flex-col gap-3">
+                <li className="flex gap-3 justify-between items-center">
+                  Перед звонком выберите скрипт: <UploadScriptButton />
+                </li>
+                <li className="flex gap-3 justify-between items-center">
+                  Скачать скрипт для выбора:
+                  <a
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                      className: "gap-1.5 text-sm cursor-pointer",
+                    })}
+                    href="https://drive.google.com/drive/folders/1SCmnfjPMHsaVob5kD1ahDuUZKbHKc0Ww?usp=sharing"
+                    target="_blank"
+                  >
+                    Хранилище скриптов
+                  </a>
+                </li>
+                <li className="flex gap-3 justify-between items-center">
+                  Создать или редактировать скрипт:
+                  <a
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                      className: "gap-1.5 text-sm cursor-pointer",
+                    })}
+                    href="https://app.diagrams.net/?lang=ru"
+                    target="_blank"
+                  >
+                    Редактор скриптов
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         )}

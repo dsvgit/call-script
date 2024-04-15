@@ -25,7 +25,7 @@ export const UploadScriptButton = () => {
           const file = event.target.files?.item(0);
           if (file != null) {
             const content = await file?.text();
-            setScript(content);
+            setScript(file.name, content);
           }
 
           event.target.value = "";

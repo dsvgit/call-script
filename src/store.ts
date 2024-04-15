@@ -5,15 +5,17 @@ import { CallState } from "@/store.h.ts";
 import { parseScript } from "@/parseScript.ts";
 
 export const useCallStore = create<CallState>()((set) => ({
+  name: "",
   currentQuestionId: null,
   questions: {},
   answers: {},
   listing: [],
-  setScript: (content: string) => {
+  setScript: (name: string, content: string) => {
     const scriptState = parseScript(content);
 
     set({
       ...scriptState,
+      name,
       listing: [],
     });
   },
